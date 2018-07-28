@@ -1,0 +1,19 @@
+
+//********************----------------------------------------------------------------------------------------------------------------------
+//* Menu Bar Setting *
+//********************
+
+var sCmds = newMenu("SimpleImagesComputing Menu Tool", newArray("Import...", "Сonfigure Parameters Set", "Single Image Treatment", "Export To Excele", "-", "About"));
+macro "SimpleImagesComputing Menu Tool - CbcbD3aD93CccaD31CdbbD8bC987D45CccbD92Cdb9DaeDebCeecD06D0eD1fD30D60D9fDf1Df8DfcCa76D04DdfCcbbD34CcbbD5bD63D6cD9cDa4CedbDf9CcbbD2bD2dD58D95Da8CccbD5dCdcaDeeCeecD09D6fD8fDc0Df4C987DbcCccbD28D36D37D3cD3dD46D4cD59D5cD6dD73D82D84D8dDa2Da7Db2Dc7Dd3Dd5Dd7CcbbD9bDd9De3CeecD07D08D2fD4fD80Da0Df6Df7CbcaD91CbccD48CdbbD53D55D65D75D7bCeecD0cD0dD3fD5fD70Db0Df5Ca86D02D77DcfCcbcD4aDc8CccbD4eDe6CfdbDffCbbbDc3Dc6CcccD72CebaD13CeecD90C976D23D88CccaD16D1eD2eD61D9eDd1DecCcccD2aD3bC987D9aDbbCcccD29D47D49D4bD83D8cDa5Db3Db5Db7Db8Dc4CdbaDdbCa86D12D76D78D79D86CccbD24D25D2cD56D57D62D74D7dD9dDc2Dc9Dd2Dd6DdcCedcD7fDd0CccbD1cD26D27D4dD71Da1De4De5CcccD35D5aD7cD94Da6Db4Db9Dc5Dd4Dd8CdcbD69DabDacC987D05D7aD8aD96DbdDcbCccbD1aD3eD6eD8eDa9DccDcdDe2De8DedCccaD17D1dD5eD81De7CdcaD21De9Ca87D32D66D89DdaCfebD00D10D50DafDfaDfbCdcbD98CeedD0aD0bDf2Df3Ca86D87DefCcbaD7eDaaDadDbaCdcbD6bD85Ca87D43DcaCbccD38D39Db6Cdc9D11Ca76D03CeebD0fDe0Df0CdbaD14D22D97DdeCa86D41CdcaD52C986DceDeaCedcD20DfdCcbaD19D1bDc1DddCdbaD15D68D99CdcaDe1CfdbD40C986D01DbeCdbbD54C987D44D6aCdbaD67CfdbDfeCcccDa3CdcaD51CdccD64CdbbD33CccbD18Db1CfdbDbf" {
+ cmd = getArgument();
+ if (cmd=="Import...")
+    runMacro("MultiOpenerWizard.txt");
+else if (cmd=="Select Parameters Set")
+    run ("ParametersSettingWizard.txt");
+else if (cmd=="Single Image Treatment")
+        runMacro("ImageTreatmentWizard.txt");
+else if (cmd=="Export To Excele")
+      runMacro("AnalyzerAndXlSaveWizard");
+else if (cmd=="About")
+      runMacro("About.txt")   ;
+}

@@ -1,0 +1,48 @@
+
+//*********************--------------------------------------------------------------------------------------------------------------------
+//* MultiOpenerMaster *
+//*********************
+
+macro "MultiOpenerMaster Tool Options [control+shift+O]" {
+  //Default
+  step=1;
+
+  //Open File
+  path=getDirectory("Choose a Directory");
+
+  //Set the increment dialog
+  Dialog.create("Adjusting");
+  Dialog.addNumber("Set the step", step);
+
+  //Building Dialog
+  Dialog.show();
+
+  //Getting increment
+  step=Dialog.getNumber();
+
+  //Getting list of the images
+  list = getFileList(path);
+
+  //Start cycle
+  j=0;
+  for (i=0; i<list.length; i=i+step){
+    j++;
+    kek=list[i];
+    list[i]=path+list[i];
+
+    //Open File
+    showMessage("opening "+kek+" (number: "+(i+1)+". step: "+j+")");
+    run("Bio-Formats Importer", "open=" +list[i] + " autoscale color_mode=Default view=Hyperstack stack_order=XYCZT");
+
+    //Image Treater recall
+    runMacro("ImageTreatmentWizard.txt");
+    runMacro("AnalyzerAndXlSaveWizard.txt");
+
+    //Close file
+    close();
+
+    showMessage("Complete: "+(j)+" out of"+(list.length-(list.length % step))/step );
+  }
+  showMessage("Completed!");
+}
+_______________________________________________________________________________________

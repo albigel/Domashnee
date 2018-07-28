@@ -1,0 +1,118 @@
+//Finding minimum of intencity, placed on line-selection
+/////////////////////////////////////
+function findMinima(selectedLine){
+  minCoord=newArray(2);
+  boarder=getProfile();
+  minA=Array.findMinima(pA,40)[0];
+  getSelectionCoordinates(xpoints,ypoints);
+  resampleX=Array.resample(xpoints,boarder.length);
+  resampleY=Array.resample(ypoints,boarder.length);
+  minCoord[0]=resamplex[minsA];
+  minCoord[1]=resampley[minsA];
+  return minxA, minyA
+}
+////////////////////////////////////
+
+
+//DCAM goovno /go'n'fuk uself/
+//this function creates a polygonal seection of a
+// single cell, defined by its intensity maximum coords, and adds it to ROI Manager
+//for one maximum, associated with centroid of the cell, making boarder
+////////////////////////////////////
+function Border(x1, y1, radius, ImageName) {
+      for (deg=0; deg<360; deg+=2) {
+         x2=x1+radius*sin(PI*deg/180)
+         y2=y1+radius*cos(PI*deg/180)
+         newCoord=findMinima(makeLine(x1, y1, x2, y2);
+         PolyX=Array.concat(PolyX, newCoord[0])
+         PolyY=Array.concat(PolyX, newCoord[1])
+         selectWindow(ImageName);
+         makeSelection("polygon", PolyX, PolyY)
+         roiManager("Add")
+      }
+}
+///////////////////////////////////
+
+//Saving relative coords of ROI's restangle, cropping ROI and starting findindividual  boarder of the cell;
+////////////////////////////////////
+function ClasterSegmentor (nameOfImage, GlobalDiametr) {
+  maxXAbs=newArray(roiManager("count"));
+  maxYAbs=newArray(roiManager("count"));
+  for (i=0; i<roiManager("count"); ++i) {
+    roiManager("Select", i);
+    getSelectionBounds(maxXAbs, maxYAbs);
+    run("Duplicate...", "title=crop");
+    roiManager("Select", 0);
+    run("Median...", "radius=10");
+    run("Find Maxima...", "noise=1 output=[Point Selection] exclude");
+    getSelectionCoordinates(maxX, maxY);
+    dim=lengthOf(maxX);
+    if (dim>1){
+      roiManager("Select", i);
+      roiManager("delete");
+      for (i=0; i<lengthOf(maxX);i++) {
+            Boarder(maxX[i]+maxXAbs,maxY[i]+maxYAbs, GlobalDiametr, nameOfImage);
+      }
+    }
+  }
+}
+///////////////////////////////////
+
+//Making treatment of the image by filters, maxime, Gaussian-like convolution
+//////////////////////////////////
+function ROIRoughFinder (nameOfOrig, pathDirectory) {
+   setBatchMode(true);
+   minimalSize=1000;
+   maximumDiam=500;
+   selectWindow(name+".tiff");
+   run("Duplicate...", "title="+nameOfOrig+".tiff");
+   run("32-bit");
+   run("Gaussian Blur...", "sigma=20");
+   setAutoThreshold("Triangle dark");
+   run("Close");
+   run("Analyze Particles...", "size="+minimalSize+"-Infinity show=Masks display clear add")
+   close(nameOfOrig+"-1.tiff");
+   nameOfMask="Mask of "+nameOfOrig+"-1.tiff";
+   imageCalculator("Multiply create", nameOfOrig+".tiff", nameOfMask);
+
+   run("Close");
+
+
+   ClasterSegmentor(nameOfOrig, maximumDiam);
+   roiManager("Save", pathDirectory+"RoiSet["+name+"].zip");
+   setBatchMode(false);
+}
+///////////////////////////////////
+
+//
+///////////////////////////////////
+macro "ImageTreatmentWizard [control+shift+I]" {
+  name=getTitle();
+  indexOfDelimetr=lastIndexOf(name, ".");
+  name=substring(name,0,indexOfDelimetr);
+  path=getDirectory("image") ;
+  pathNew=path;
+  buff=lengthOf(pathNew)-1;
+  endbuff=(lengthOf(path)-1);
+  if (path==''){
+    buff=0;
+    endbuff=0;
+  }
+  else{
+    do{
+      buff-=1;
+      pathNew=substring(pathNew,0,buff);
+      } while (!(File.exists(pathNew)))
+  }
+
+////////////////////////////////////
+  //Saving
+  tmpr="]";
+  pathFinal=pathNew+"\ResultOf["+substring(path,buff,endbuff)+tmpr+substring(path,endbuff);
+  File.makeDirectory(pathFinal);
+  strBuff=pathFinal+"\ResOf_"+name+".tiff";
+  saveAs("Tiff", strBuff );
+    //Computing
+  ROIRoughFinder(getTitle(),pathFinal );
+  }
+////////////////////////////////////
