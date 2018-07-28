@@ -1,0 +1,14 @@
+macro "AnalyzeAndXlSaveWizard" {
+  open("/Users/alex/Desktop/For_Fiji_Tiff/Snap-1490.tif");
+  path=getInfo("image.directory")+File.separator+ substring(getInfo("image.filename"),0,indexOf(getInfo("image.filename"),".tif")) +".xls";
+  roiManager("Open", "/Users/alex/Desktop/For_Fiji_Tiff/RoiSet.zip");
+  roiManager("Measure");
+  for (i=0; i<nResults; i++) {
+    NumberOfRoi=substring(getResultLabel(i),indexOf(getResultLabel(i),":")+1,indexOf(getResultLabel(i),":")+15);
+    row = NumberOfRoi + "\t" + getResult("Area",i) + "\t" + getResult("Mean",i) + "\t"+getResult("Min",i) + "\t"+getResult("Max",i);
+    File.append(row,path);
+    }
+  run("Close");
+  run("Close");
+  run("Close");
+}

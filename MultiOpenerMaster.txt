@@ -36,7 +36,7 @@ macro "MultiOpenerMaster Tool Options [control+shift+O]" {
 
     //Image Treater recall
     runMacro("ImageTreatmentWizard.txt");
-    runMacro("AnalyzerAndXlSaveWizard.txt");
+    runMacro("AnalyzeAndXlSaveWizard.txt");
 
     //Close file
     close();

@@ -13,7 +13,7 @@ else if (cmd=="Select Parameters Set")
 else if (cmd=="Single Image Treatment")
         runMacro("ImageTreatmentWizard.txt");
 else if (cmd=="Export To Excele")
-      runMacro("AnalyzerAndXlSaveWizard");
+      runMacro("AnalyzeAndXlSaveWizard");
 else if (cmd=="About")
       runMacro("About.txt")   ;
 }
